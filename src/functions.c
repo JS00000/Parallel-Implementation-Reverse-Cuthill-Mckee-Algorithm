@@ -42,8 +42,8 @@ void init_matrix(int* matrix, int size, int mode, double sparsity_limit) {
     //
     // while(1){
     //   double sum=0;
-    //   for (size_t i = 0; i < size; i++) {
-    //     for (size_t j = 0; j <= i; j++) {
+    //   for (int i = 0; i < size; i++) {
+    //     for (int j = 0; j <= i; j++) {
     //       randNum = rand() % 100;
     //       randNum = randNum<= sparsity_limit*100 ? 0 : 1; // if randNum <= 70: randNum = 0    else: randNum = 1
     //       randNum = i==j ? 0 : randNum;
@@ -62,7 +62,7 @@ void init_matrix(int* matrix, int size, int mode, double sparsity_limit) {
     int non_zeros = (size*size) - (size*size*sparsity_limit);
     int sum = 0, randX=0, randY=0;
 
-    for (size_t i = 0; i < non_zeros; i+=2) {
+    for (int i = 0; i < non_zeros; i+=2) {
       do {
         randX = rand() % size;
         randY = rand() % size;
@@ -80,8 +80,8 @@ void init_matrix(int* matrix, int size, int mode, double sparsity_limit) {
     if(file == NULL)
       exit(0);
 
-    for (size_t i = 0; i < size; i++) {
-      for (size_t j = 0; j < size; j++) {
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
         fprintf(file, "%d, ", *(matrix+i*size+j));
       }
       fprintf(file, "\n");
@@ -98,8 +98,8 @@ int* degreesCalculation(int* matrix, int size) {
   }
   int sum=0;
 
-  for (size_t i = 0; i < size; i++) {
-    for (size_t j = 0; j < size; j++) {
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size; j++) {
       sum += *(matrix+ i*size+j);
     }
     degree_array[i] = sum;
@@ -118,7 +118,7 @@ int* degreesCalculationParallel(int* matrix, int size, int threads_num) {
     int sum=0;
     #pragma omp for schedule(dynamic)
       for ( i = 0; i < size; i++) {
-        for (size_t j = 0; j < size; j++) {
+        for (int j = 0; j < size; j++) {
           sum += *(matrix+ i*size+j);
         }
         degree_array[i] = sum;
@@ -134,7 +134,7 @@ int findMinIdx(int* degrees, int* notVisited, int size) {
   int minDegree = size+10; // A node can not have degree > SIZE
 
   // find the min degree
-  for (size_t i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++) {
     if(degrees[i] < minDegree && notVisited[i] == 1) {
       minDegreeIndex = i;
       minDegree = degrees[i];
@@ -175,7 +175,7 @@ int findMinIdxParallel(int* degrees, int* notVisited, int size, int threads_num)
   int globalMinIdx = idxArray[0];
   int globalMinDeg = degArray[0];
 
-  for (size_t i = 1; i < threads_num; i++) {
+  for (int i = 1; i < threads_num; i++) {
     if(degArray[i] < globalMinDeg) {
       globalMinDeg = degArray[i];
       globalMinIdx = idxArray[i];
@@ -186,7 +186,7 @@ int findMinIdxParallel(int* degrees, int* notVisited, int size, int threads_num)
 }
 
 int findNotVisited(int* notVisited, int size) {
-  for (size_t i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++) {
     if(*(notVisited+i) == 1)
       return 1;
   }
@@ -207,15 +207,15 @@ void swap(int* addr1, int* addr2) {
 void sortByDegree(int* neighbors, int* degrees, int size) {
   int array[size];
 
-  for (size_t i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++) {
     array[i] = degrees[neighbors[i]];
   }
 
   int minIndex = 0;
 
-  for (size_t i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++) {
     minIndex = i;
-    for (size_t j = i+1; j < size; j++) {
+    for (int j = i+1; j < size; j++) {
       if(array[j] < array[minIndex]) {
           minIndex = j;
       }
@@ -235,8 +235,8 @@ void output_write(int* matrix, int rows, int col, char* file_path) {
   if(file == NULL)
     exit(0);
 
-  for (size_t i = 0; i < rows; i++) {
-    for (size_t j = 0; j < col; j++) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < col; j++) {
       fprintf(file, "%d, ", *(matrix+i*col+j));
     }
     fprintf(file, "\n");
@@ -249,7 +249,7 @@ void write_vector(int* vector, int size, char* file_path) {
   if(file == NULL)
     exit(0);
 
-  for (size_t i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++) {
     fprintf(file, "%d, ", *(vector+i));
   }
 
@@ -261,10 +261,10 @@ void write_vector(int* vector, int size, char* file_path) {
 void AddtoQueue(int** neighbors, queue* Q, int* neighborsCounter, int* R, int* Rsize ,int* currentIndex, int* notVisited, int size, int* queue_size) {
 
   // printf("Add to Q: ");
-  for (size_t i = 0; i < size; i++) {
-    for (size_t j = 0; j < size; j++) {
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size; j++) {
       if(R[*Rsize-size+i] == currentIndex[j] ) {
-        for (size_t z = 0; z < neighborsCounter[j]; z++) {
+        for (int z = 0; z < neighborsCounter[j]; z++) {
           // printf(" notVisited: %d, \n", notVisited[neighbors[j][z]]);
           if(notVisited[neighbors[j][z]] == 1) {
             // printf(" -> notVisited: %d, \n", notVisited[neighbors[j][z]]);

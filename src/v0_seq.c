@@ -29,7 +29,7 @@ int* CuthillMckee(int* matrix) {
   }
 
   // init notVisited array
-  for (size_t i = 0; i < SIZE; i++) {
+  for (int i = 0; i < SIZE; i++) {
     *(notVisited+i) = 1;
   }
 
@@ -38,7 +38,7 @@ int* CuthillMckee(int* matrix) {
     int minDegree = SIZE+10; // A node can not have degree > SIZE
 
     // find the min degree
-    for (size_t i = 0; i < SIZE; i++) {
+    for (int i = 0; i < SIZE; i++) {
       if(degrees[i] < minDegree && notVisited[i] == 1) {
         minDegreeIndex = i;
         minDegree = degrees[i];
@@ -63,7 +63,7 @@ int* CuthillMckee(int* matrix) {
       int neighborsCounter=0;  // the num of neighbors
 
       // find all not visited neighbors
-      for (size_t i = 0; i < SIZE; i++) {
+      for (int i = 0; i < SIZE; i++) {
         if(i != *currentIndex && *(matrix+(*currentIndex)*SIZE+i)==1 && notVisited[i]==1) {
           neighbors[neighborsCounter++] = i; // add the neighbor in the array
           notVisited[i] = 0; // and the node become visited
@@ -74,7 +74,7 @@ int* CuthillMckee(int* matrix) {
       sortByDegree(neighbors, degrees, neighborsCounter); // sort the neighbors by degree
 
       // add the sorted neighbor in Q
-      for (size_t i = 0; i < neighborsCounter; i++) {
+      for (int i = 0; i < neighborsCounter; i++) {
         queueAdd(Q, neighbors[i]);
       }
 
@@ -104,7 +104,7 @@ int* ReverseCuthillMckee(int* matrix) {
 
   n = n / 2;
 
-  for (size_t i = 0; i <= n; i++) {
+  for (int i = 0; i <= n; i++) {
     swap(&rcm[SIZE - 1 - i], &rcm[i]);
   }
 
@@ -126,8 +126,8 @@ int main(int argc, char const *argv[]) {
   init_matrix(matrix, SIZE, MODE, SPARSITY);
 
   // printf("MATRIX:\n");
-  // for (size_t i = 0; i < SIZE; i++) {
-  //   for (size_t j = 0; j < SIZE; j++) {
+  // for (int i = 0; i < SIZE; i++) {
+  //   for (int j = 0; j < SIZE; j++) {
   //     printf("%d ", *(matrix+i*SIZE+j));
   //   }
   //   printf("\n");
@@ -157,7 +157,7 @@ int main(int argc, char const *argv[]) {
 
 
 
-  // for (size_t i = 0; i < SIZE; i++) {
+  // for (int i = 0; i < SIZE; i++) {
   //   printf("%d, ", R[i]);
   // }
 

@@ -34,7 +34,7 @@ int* CuthillMckee(int* matrix) {
   omp_init_lock(&writelock);
 
   // init notVisited array
-  for (size_t i = 0; i < SIZE; i++) {
+  for (int i = 0; i < SIZE; i++) {
     *(notVisited+i) = 1;
   }
 
@@ -71,7 +71,7 @@ int* CuthillMckee(int* matrix) {
         neighbors[tid] = (int*) malloc(degrees[currentIndex[tid]] * sizeof(int));
         neighborsCounter[tid]=0;
 
-        for (size_t i = 0; i < SIZE; i++) {
+        for (int i = 0; i < SIZE; i++) {
           if(i != currentIndex[tid] && *(matrix+(currentIndex[tid])*SIZE+i)==1 && notVisited[i]==1) {
             neighbors[tid][neighborsCounter[tid]] = i;
             neighborsCounter[tid]++;
@@ -129,8 +129,8 @@ int main(int argc, char const *argv[]) {
   init_matrix(matrix, SIZE, MODE, SPARSITY);
 
   // printf("MATRIX:\n");
-  // for (size_t i = 0; i < SIZE; i++) {
-  //   for (size_t j = 0; j < SIZE; j++) {
+  // for (int i = 0; i < SIZE; i++) {
+  //   for (int j = 0; j < SIZE; j++) {
   //     printf("%d ", *(matrix+i*SIZE+j));
   //   }
   //   printf("\n");
@@ -157,7 +157,7 @@ int main(int argc, char const *argv[]) {
 
 
 
-  // for (size_t i = 0; i < SIZE; i++) {
+  // for (int i = 0; i < SIZE; i++) {
   //   printf("%d, ", R[i]);
   // }
 
