@@ -7,7 +7,7 @@
 #include "rcm.h"
 
 #define SIZE 500         // number of rows and cols of sparse array
-#define MODE 2           // MODE = 1: Read a sparse array from file, MODE = 2: Create a sparse array, with a specific sparsity
+#define MODE 1           // MODE = 1: Read a sparse array from file, MODE = 2: Create a sparse array, with a specific sparsity
 #define SPARSITY 0.6     // the percentage of zeros in sparse array
 
 

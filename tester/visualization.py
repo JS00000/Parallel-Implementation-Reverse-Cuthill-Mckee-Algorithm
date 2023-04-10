@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-size = 2000
+size = 500
 
 file = open("input/test_input.txt", "r")
 x = []
